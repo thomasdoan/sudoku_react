@@ -1,36 +1,59 @@
 import React, { useState } from 'react'
 import Square from '../components/Square'
+import styled from 'styled-components'
+
+const Container = styled.div`
+  height: 270px;
+  width: 270px;
+  background: white;
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  grid-gap: 1px;
+  user-select: none;
+`;
+
+
 
 const Board = ({
   setGameState,
-  answersData
+  answersData,
+  initialBoard
 }) => {
-  const [ boardData, setBoardData ] = useState([1,2,3])
 
-  const evaluateBoard = () => {
+  const [boardData, setBoardData] = useState(initialBoard)
+  const [selected, setSelected] = useState(null)
 
-  }
+  // const evaluateBoard = () => {
 
-  const handleClickOnBoard = () => {
-    // setBoardData
-  }
+  // }
 
-  const resetGame = () => {
-    setBoardData(null)
-  }
+  // const handleClickOnBoard = () => {
+  //   // setBoardData
+  // }
 
-  const isSquareValid = (value, index) => {
-    // evaluate(value, index) ...
-  }
+  // const resetGame = () => {
+  //   setBoardData(null)
+  // }
+
+  // const isSquareValid = (value, index) => {
+  //   // evaluate(value, index) ...
+  // }
+
+  
 
   return(
-    boardData.map((sqNum, index) => (
-      <Square
-        number={sqNum}
-        handleClick={handleClickOnBoard}
-        isSquareValid={sqNum === answersData[index]}
-      />
-    ))
+    <Container>
+      {boardData.map((sqNum, i) => (
+        <Square
+          number={sqNum}
+          active={i === selected}
+          onClick={() => setSelected(i)}
+          // handleClick={handleClickOnBoard}
+          // isSquareValid={sqNum === answersData[]}
+        />
+      ))}
+    </Container>
+
   )
 }
 

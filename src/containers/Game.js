@@ -8,10 +8,19 @@ import Board from './Board'
 
 // loading
 
+
+
 const Game = ({
   loginState
 }) => {
-  const [ gameState, setGameState ] = useState(null)
+  const initializeBoard = () => {
+    const test = '014300209005009001070060043006002087190007400050083000600000105003508690042910300';
+    var res = test.split('')
+    return res
+  }
+
+  const [history, setBoardHistory] = useState([initializeBoard()])
+
 
   useEffect(() => {
     initializeBoard();
@@ -21,18 +30,13 @@ const Game = ({
     }
   }, [])
 
-  const initializeBoard = () => {
-    // load board data...
-  }
+
 
   return (
     <div>
       <Board
-        setGameState={setGameState}
+        initialBoard={history[history.length - 1]}
       />
-      <button onClick={() => setGameState("start")}>
-        Start
-      </button>
     </div>
   );
 }

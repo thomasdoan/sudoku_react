@@ -17,11 +17,12 @@ const Container = styled.div`
 const Board = ({
   setGameState,
   answersData,
-  initialBoard
+  board,
+  onClick,
+  selected
 }) => {
 
-  const [boardData, setBoardData] = useState(initialBoard)
-  const [selected, setSelected] = useState(null)
+  const [boardData, setBoardData] = useState(board)
 
   // const evaluateBoard = () => {
 
@@ -39,19 +40,27 @@ const Board = ({
   //   // evaluate(value, index) ...
   // }
 
-  
+  const squares = []
+  for (var i=0; i < boardData.length; i++) {
+    squares.push(
+      <Square 
+        number={boardData[i]}
+        active={i === selected}
+        onClick={() => onClick(i)}
+      />
+    )
+  }
 
   return(
     <Container>
-      {boardData.map((sqNum, i) => (
+      {squares}
+      {/* {boardData.map((sqNum, i) => (
         <Square
           number={sqNum}
           active={i === selected}
-          onClick={() => setSelected(i)}
-          // handleClick={handleClickOnBoard}
-          // isSquareValid={sqNum === answersData[]}
+          onClick={() => onClick(i)}
         />
-      ))}
+      ))} */}
     </Container>
 
   )

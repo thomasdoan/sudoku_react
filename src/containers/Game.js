@@ -13,29 +13,29 @@ import Board from './Board'
 const Game = ({
   loginState
 }) => {
-  const initializeBoard = () => {
-    const test = '014300209005009001070060043006002087190007400050083000600000105003508690042910300';
-    var res = test.split('')
-    return res
-  }
+  // const initializeBoard = () => {
+  //   const test = '014300209005009001070060043006002087190007400050083000600000105003508690042910300';
+  //   var res = test.split('')
+  //   return res
+  // }
 
-  const [history, setBoardHistory] = useState([initializeBoard()])
+  const [history, setBoardHistory] = useState(['014300209005009001070060043006002087190007400050083000600000105003508690042910300'])
+  const [selected, setSelected] = useState(null)
 
+  // useEffect(() => {
+  //   initializeBoard();
 
-  useEffect(() => {
-    initializeBoard();
-
-    return function cleanup() {
-      // eraseBoard();
-    }
-  }, [])
-
-
+  //   return function cleanup() {
+  //     // eraseBoard();
+  //   }
+  // }, [])
 
   return (
     <div>
       <Board
-        initialBoard={history[history.length - 1]}
+        board={history[history.length - 1]}
+        onClick={(i) => setSelected(i)}
+        selected={selected}
       />
     </div>
   );

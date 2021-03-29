@@ -3,26 +3,18 @@ import Square from '../components/Square'
 import styled from 'styled-components'
 
 const Container = styled.div`
-  height: 278px;
-  width: 278px;
+  ${'' /* height: 280px;
+  width: 280px; */}
   background: white;
   display: grid;
-  grid-template-columns: repeat(9, 1fr);
-  grid-gap: 1px;
+  grid-template-columns: repeat(9, 0fr);
+  ${'' /* grid-gap: 1px; */}
   user-select: none;
-`;
-
-const FlexContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  width: 288px;
+  ${'' /* border: 2px solid black; */}
 `;
 
 const Board = ({
-  setGameState,
-  answersData,
-  board,
+  board
 }) => {
   const [selected, setSelected] = useState(null)
   const [ boardConfiguration, setBoardConfiguration ] = useState(null)
@@ -54,50 +46,65 @@ const Board = ({
   // }
 
   const handleClick = (index) => {
-    setSelected(index)
-  }
-
-  const renderBoard = () => {
-    const squares = []
-    for(let index = 0; index < board.length; index++) {
-      squares.push(
-        <Square
-          key={index}
-          number={board[index]}
-          active={index === selected}
-          onClick={() => handleClick(index)}
-        />
-      )
+    if (selected === index) {
+      setSelected(null)
+    } else {
+      setSelected(index)
     }
-
-    return squares;
+    
   }
-
-
-
 
   // addBoardHistory(...)
 
   return(
     <div>
       <Container>
-        {/* {squares} */}
-        {/* { boardConfiguration } */}
-
-        {/* { renderBoard() } */}
 
         { board.split("").map((item, index) => (
             <Square
               number={item}
               active={index === selected}
+              locked={true}
               onClick={() => handleClick(index)}
             />
           ))
         }
 
-
       </Container>
-      {/* <FlexContainer>
+
+    </div>
+
+  )
+}
+
+export default Board
+
+
+// const FlexContainer = styled.div`
+//   display: flex;
+//   flex-direction: row;
+//   flex-wrap: wrap;
+//   width: 288px;
+// `;
+
+
+  // const renderBoard = () => {
+  //   const squares = []
+  //   for(let index = 0; index < board.length; index++) {
+  //     squares.push(
+  //       <Square
+  //         key={index}
+  //         number={board[index]}
+  //         active={index === selected}
+  //         onClick={() => handleClick(index)}
+  //       />
+  //     )
+  //   }
+
+  //   return squares;
+  // }
+
+        {/* <FlexContainer>
         { board.split("").map((item, index) => (
             <Square
               number={item}
@@ -107,9 +114,3 @@ const Board = ({
           ))
         }
       </FlexContainer> */}
-    </div>
-
-  )
-}
-
-export default Board

@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Square from '../components/Square'
 import styled from 'styled-components'
 
 const Container = styled.div`
-  height: 270px;
-  width: 270px;
+  height: 278px;
+  width: 278px;
   background: white;
   display: grid;
   grid-template-columns: repeat(9, 1fr);
@@ -12,18 +12,31 @@ const Container = styled.div`
   user-select: none;
 `;
 
-
+const FlexContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 288px;
+`;
 
 const Board = ({
   setGameState,
   answersData,
   board,
-  onClick,
-  selected
 }) => {
+  const [selected, setSelected] = useState(null)
+  const [ boardConfiguration, setBoardConfiguration ] = useState(null)
 
-  const [boardData, setBoardData] = useState(board)
-
+  // useEffect(() => {
+  //   const newConfig = board.split("").map((item, index) => (
+  //     <Square
+  //       number={item}
+  //       active={index === selected}
+  //       onClick={() => handleClick(index)}
+  //     />
+  //   ));
+  //   setBoardConfiguration(newConfig)
+  // }, [board])
   // const evaluateBoard = () => {
 
   // }
@@ -40,28 +53,61 @@ const Board = ({
   //   // evaluate(value, index) ...
   // }
 
-  const squares = []
-  for (var i=0; i < boardData.length; i++) {
-    squares.push(
-      <Square 
-        number={boardData[i]}
-        active={i === selected}
-        onClick={() => onClick(i)}
-      />
-    )
+  const handleClick = (index) => {
+    setSelected(index)
   }
 
-  return(
-    <Container>
-      {squares}
-      {/* {boardData.map((sqNum, i) => (
+  const renderBoard = () => {
+    const squares = []
+    for(let index = 0; index < board.length; index++) {
+      squares.push(
         <Square
-          number={sqNum}
-          active={i === selected}
-          onClick={() => onClick(i)}
+          key={index}
+          number={board[index]}
+          active={index === selected}
+          onClick={() => handleClick(index)}
         />
-      ))} */}
-    </Container>
+      )
+    }
+
+    return squares;
+  }
+
+
+
+
+  // addBoardHistory(...)
+
+  return(
+    <div>
+      <Container>
+        {/* {squares} */}
+        {/* { boardConfiguration } */}
+
+        {/* { renderBoard() } */}
+
+        { board.split("").map((item, index) => (
+            <Square
+              number={item}
+              active={index === selected}
+              onClick={() => handleClick(index)}
+            />
+          ))
+        }
+
+
+      </Container>
+      {/* <FlexContainer>
+        { board.split("").map((item, index) => (
+            <Square
+              number={item}
+              active={index === selected}
+              onClick={() => handleClick(index)}
+            />
+          ))
+        }
+      </FlexContainer> */}
+    </div>
 
   )
 }

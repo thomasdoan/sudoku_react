@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Board from './Board'
+import styled from 'styled-components'
 // GAMESTATES
 
 // start
@@ -8,7 +9,14 @@ import Board from './Board'
 
 // loading
 
+const GameContainer = styled.div`
+  width: 100vw;
+  height: 100vh;
+  min-width: 278px;
+  min-height: 278px;
+  display: flex;
 
+`;
 
 const Game = ({
   loginState
@@ -20,7 +28,7 @@ const Game = ({
   // }
 
   const [history, setBoardHistory] = useState(['014300209005009001070060043006002087190007400050083000600000105003508690042910300'])
-  const [selected, setSelected] = useState(null)
+
 
   // useEffect(() => {
   //   initializeBoard();
@@ -30,18 +38,20 @@ const Game = ({
   //   }
   // }, [])
 
+
+
   return (
-    <div>
+    <GameContainer>
       <Board
         board={history[history.length - 1]}
-        onClick={(i) => setSelected(i)}
-        selected={selected}
+        setBoardHistory={setBoardHistory}
       />
-    </div>
+    </GameContainer>
   );
 }
 
 export default Game
+
 // export default Board = ({
 //   setGameState,
 //   answersData

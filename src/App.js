@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import Game from './containers/Game';
+import './App.css'
 
 const Container = styled.div`
   // height: 100vh;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+// import React, { useState } from 'react'
 import Square from '../components/Square'
 import styled from 'styled-components'
 
@@ -9,20 +9,18 @@ const Container = styled.div`
   display: grid;
   grid-template-columns: repeat(9, 0fr);
   ${'' /* grid-gap: 1px; */}
-  user-select: none;
+  // user-select: none;
   ${'' /* border: 2px solid black; */}
 `;
 
 const Board = ({
   board,
-  setBoardHistory,
   onClick,
   locked,
   selected
 }) => {
   
   
-
   return(
     <div>
       <Container>
@@ -32,7 +30,7 @@ const Board = ({
               key={index}
               number={item}
               active={index === selected}
-              locked={locked[index]}
+              locked={locked[index] === true}
               onClick={() => onClick(index)}
             />
           ))

@@ -53,20 +53,25 @@ const Game = ({
   //   }
   // }, [])
 
-  const changeNumber = (index, number) => {
-    if (locked[index]) {
-      return
-    }
 
-    const newBoard = history.substr(0, index) + number + history.substr(index + 1)
-    setBoardHistory(newBoard)
-  }
   
   useEffect(() => {
+
+    const changeNumber = (index, number) => {
+      if (locked[index]) {
+        return
+      }
+  
+      const newBoard = history.substr(0, index) + number + history.substr(index + 1)
+      setBoardHistory(newBoard)
+    }
+
     function handleKeyDown(e) {
       const num = e.key
-      if (num > 0 && num <= 9) {
-        console.log(e.key);
+      if (num > 0 && num <= 9 && selected != null) {
+        // console.log(e.key);
+        // console.log(selected)
+        changeNumber(selected, num)
       }
     }
 
@@ -74,8 +79,9 @@ const Game = ({
 
     return function cleanup() {
       document.removeEventListener('keydown', handleKeyDown);
+      
     }
-  }, []);
+  }, [selected, history, locked]);
 
 
   const handleClick = (index) => {

@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import styled from 'styled-components'
 
 const Container = styled.div`
@@ -33,7 +33,7 @@ const Square = ({number, active, locked, onClick}) => {
 
   return (
     <Container on={active} locked={locked} onClick={onClick}>
-      {number!= 0 ? number : null}
+      {number > 0 ? number : null}
     </Container>
   )
 }

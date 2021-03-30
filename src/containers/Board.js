@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Square from '../components/Square'
 import styled from 'styled-components'
 
@@ -14,47 +14,14 @@ const Container = styled.div`
 `;
 
 const Board = ({
-  board
+  board,
+  setBoardHistory,
+  onClick,
+  locked,
+  selected
 }) => {
-  const [selected, setSelected] = useState(null)
-  const [ boardConfiguration, setBoardConfiguration ] = useState(null)
-
-  // useEffect(() => {
-  //   const newConfig = board.split("").map((item, index) => (
-  //     <Square
-  //       number={item}
-  //       active={index === selected}
-  //       onClick={() => handleClick(index)}
-  //     />
-  //   ));
-  //   setBoardConfiguration(newConfig)
-  // }, [board])
-  // const evaluateBoard = () => {
-
-  // }
-
-  // const handleClickOnBoard = () => {
-  //   // setBoardData
-  // }
-
-  // const resetGame = () => {
-  //   setBoardData(null)
-  // }
-
-  // const isSquareValid = (value, index) => {
-  //   // evaluate(value, index) ...
-  // }
-
-  const handleClick = (index) => {
-    if (selected === index) {
-      setSelected(null)
-    } else {
-      setSelected(index)
-    }
-    
-  }
-
-  // addBoardHistory(...)
+  
+  
 
   return(
     <div>
@@ -62,10 +29,11 @@ const Board = ({
 
         { board.split("").map((item, index) => (
             <Square
+              key={index}
               number={item}
               active={index === selected}
-              locked={true}
-              onClick={() => handleClick(index)}
+              locked={locked[index]}
+              onClick={() => onClick(index)}
             />
           ))
         }
@@ -104,13 +72,13 @@ export default Board
   //   return squares;
   // }
 
-        {/* <FlexContainer>
-        { board.split("").map((item, index) => (
-            <Square
-              number={item}
-              active={index === selected}
-              onClick={() => handleClick(index)}
-            />
-          ))
-        }
-      </FlexContainer> */}
+  /* <FlexContainer>
+  { board.split("").map((item, index) => (
+      <Square
+        number={item}
+        active={index === selected}
+        onClick={() => handleClick(index)}
+      />
+    ))
+  }
+</FlexContainer> */

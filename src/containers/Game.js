@@ -4,14 +4,6 @@ import styled from 'styled-components'
 import GameControls from './GameControls'
 import randomGame from './GameSelector'
 
-// GAMESTATES
-
-// start
-// end
-// evaluate
-
-// loading
-
 const GameContainer = styled.div`
   // width: 100vw;
   // height: 100vh;
@@ -31,7 +23,6 @@ const ControlsContainer = styled.div`
 `;
 
 const Game = () => {
-
   const initializeBoard = () => {
     const board = randomGame();
     return board
@@ -46,45 +37,11 @@ const Game = () => {
     for (var i=0; i < initialBoard.length; i++) {
       if (initialBoard[i] > 0) {
         lockedBoard[i] = true
-      } 
+      }
     }
     return lockedBoard
   }
   const [locked, setLocked] = useState(setInitialLocked())
-
-  useEffect(() => {
-
-    const changeNumber = (index, number) => {
-      if (locked[index]) {
-        return
-      }
-      const hist = history.slice(0, step + 1)
-      const newBoard = history[step].substr(0, index) + number + history[step].substr(index + 1)
-      setBoardHistory([...hist, newBoard])
-      setStep(step + 1)
-    }
-
-    function handleKeyDown(e) {
-      const num = e.key
-      if (num >= 0 && num <= 9 && selected != null) {
-        changeNumber(selected, num)
-      } else if (e.key === 'Delete') {
-        changeNumber(selected, 0)
-      }
-    }
-
-    document.addEventListener('keydown', handleKeyDown);
-    // document.addEventListener('contextmenu', (e) => {
-    //   e.preventDefault();
-    //   changeNumber(selected, 0);
-    // });
-
-    return function cleanup() {
-      document.removeEventListener('keydown', handleKeyDown);
-      // document.removeEventListener('contextmenu', handleKeyDown);
-    }
-  }, [selected, history, locked, step]);
-
 
   const handleClick = (index) => {
     if (locked[index]) {
@@ -137,16 +94,34 @@ const Game = () => {
   }
 
   const newRandomGame = () => {
+    setStep(0)
+    setSelected(null)
     const newGame = randomGame()
     setInitialBoard(newGame)
     setBoardHistory([newGame])
     setLocked(newLocked(newGame))
-    setStep(0)
-    setSelected(null)
+  }
+
+  const handleKeyPress = (e) => {
+    const num = e.key
+    if (num >= 0 && num <= 9 && selected != null) {
+      changeNumber(num)
+    } else if (e.key === 'Delete') {
+      changeNumber(0)
+    }
+  }
+
+  const changeNumber = (number) => {
+    if(selected && step >= 0) {
+      const hist = history.slice(0, step + 1)
+      const newBoard = history[step].substr(0, selected) + number + history[step].substr(selected + 1)
+      setBoardHistory([...hist, newBoard])
+      setStep(step + 1)
+    }
   }
 
   return (
-    <div>
+    <div tabIndex="0" onKeyPress={(e) => handleKeyPress(e)}>
       <GameContainer>
         <Board
           board={history[step]}
@@ -154,38 +129,39 @@ const Game = () => {
           setBoardHistory={setBoardHistory}
           onClick={handleClick}
           selected={selected}
+          changeNumber={changeNumber}
         />
       </GameContainer>
       <ControlsContainer>
-        <GameControls 
+        <GameControls
           name={"Undo"}
           onClick={undo}
         />
-        <GameControls 
+        <GameControls
           name={"Redo"}
           onClick={redo}
         />
-        <GameControls 
+        <GameControls
           name={"Restart from beginning"}
           onClick={restart}
         />
-        {/* <GameControls 
+        {/* <GameControls
           name={"Solve"}
           onClick={eraseAll}
         /> */}
-        <GameControls 
+        <GameControls
           name={"Erase All"}
           onClick={eraseAll}
         />
-        <GameControls 
+        <GameControls
           name={"Random Puzzle"}
           onClick={newRandomGame}
         />
       </ControlsContainer>
     </div>
-    
-    
-      
+
+
+
   );
 }
 

@@ -4,19 +4,7 @@ import styled from 'styled-components'
 import GameControls from './GameControls'
 import randomGame from './GameSelector'
 
-// GAMESTATES
-
-// start
-// end
-// evaluate
-
-// loading
-
 const GameContainer = styled.div`
-  // width: 100vw;
-  // height: 100vh;
-  ${'' /* min-width: 278px;
-  min-height: 278px; */}
   display: flex;
   align-items: center;
   justify-content: center;
@@ -151,7 +139,7 @@ const Game = () => {
         <Board
           board={history[step]}
           locked={locked}
-          setBoardHistory={setBoardHistory}
+          // setBoardHistory={setBoardHistory}
           onClick={handleClick}
           selected={selected}
         />
@@ -183,9 +171,6 @@ const Game = () => {
         />
       </ControlsContainer>
     </div>
-    
-    
-      
   );
 }
 

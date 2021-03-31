@@ -11,7 +11,7 @@ const Container = styled.div`
 function App() {
   return (
     <Container>
-      <Game />
+    <Game />
     </Container>
   );
 }

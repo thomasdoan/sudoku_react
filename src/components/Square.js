@@ -26,11 +26,9 @@ const Container = styled.div`
   :nth-child(n+46):nth-child(-n+54) {
     border-bottom: 2px solid black;
   }
-}
 `;
 
-const Square = ({number, active, locked, onClick}) => {
-
+const Square = ({number, active, locked, onClick }) => {
   return (
     <Container on={active} locked={locked} onClick={onClick}>
       {number > 0 ? number : null}

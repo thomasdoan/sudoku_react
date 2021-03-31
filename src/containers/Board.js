@@ -19,8 +19,8 @@ const Board = ({
   locked,
   selected
 }) => {
-  
-  
+
+
   return(
     <div>
       <Container>
@@ -28,6 +28,7 @@ const Board = ({
         { board.split("").map((item, index) => (
             <Square
               key={index}
+              index={index}
               number={item}
               active={index === selected}
               locked={locked[index] === true}

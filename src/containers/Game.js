@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Board from './Board'
 import styled from 'styled-components'
 import GameControls from './GameControls'
@@ -41,6 +41,15 @@ const Game = () => {
     }
     return lockedBoard
   }
+  const newLocked = (board) => {
+    const newLock = new Array(board.length)
+    for (var i=0; i < board.length; i++) {
+      if (board[i] > 0) {
+        newLock[i] = true
+      }
+    }
+    return newLock
+  }
   const [locked, setLocked] = useState(setInitialLocked())
 
   const handleClick = (index) => {
@@ -72,25 +81,16 @@ const Game = () => {
 
   const eraseAll = () => {
     const empytBoard = '0'.repeat(history[step].length)
+    setLocked(newLocked(Array(history[step].length)))
     setBoardHistory([...history, empytBoard])
     setStep(step + 1)
-    setLocked(newLocked(Array(history[step].length)))
     setSelected(null)
   }
 
   const restart = () => {
     setStep(0)
     setSelected(null)
-  }
-
-  const newLocked = (board) => {
-    const newLock = new Array(board.length)
-    for (var i=0; i < board.length; i++) {
-      if (board[i] > 0) {
-        newLock[i] = true
-      }
-    }
-    return newLock
+    setLocked(newLocked(setInitialLocked()))
   }
 
   const newRandomGame = () => {

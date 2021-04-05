@@ -116,13 +116,81 @@ const Game = () => {
     }
   }
 
+  const openCell = (board) => {
+    for (var row=0; row < board.length; row++) {
+      for (var col=0; col< board.length; col++){
+        if (board[row][col] === 0) {
+          return [row, col]
+        }
+      }
+    }
+    return [-1, -1]
+  }
+
+  const validPlacement = (board, row, col, val) => {
+    
+    for (var i=0; i < board.length; i++) {
+      if (board[row][i] === val) return false
+    }
+
+    for (var r=0; r<board.length; r++) {
+      if (board[r][col] === val) return false
+    }
+
+    const test = Math.floor(row / 3) * 3
+    const topYPos = Math.floor(col / 3) * 3
+    for (var x=test; x < test + 3; x++) {
+      for(var y=topYPos; y < topYPos + 3; y++) {
+        if (board[x][y] === val) return false
+      }
+    }
+    // console.log(row, col, val)
+    return true
+  }
+
+  const initialTo2D = () => {
+    const board = initialBoard
+    const splitBoardString = board.split("")
+    let splitBoard = splitBoardString.map(i=>Number(i));
+    const twoDBoard = []
+    while (splitBoard.length) {
+      twoDBoard.push(splitBoard.splice(0, 9))
+    }
+    return twoDBoard
+  }
+  const [two2DBoard, settwo2DBoard] = useState(initialTo2D())
+
+  const solveGame = () => {
+    // debugger;
+    var board = two2DBoard
+    var [row, col] = openCell(board)
+    if (row === -1 & col === -1) return true
+    // console.log(row, col)
+    for (var i=1; i < 10; i++) {
+      if (validPlacement(board, row, col, i)) {
+        board[row][col] = i
+        settwo2DBoard(board)
+        // console.log(board)
+        if (solveGame() === true){
+          const flatBoard = two2DBoard.flat().join('')
+          setBoardHistory([...history, flatBoard])
+          setStep(step + 1)
+          return true
+        } 
+        board[row][col] = 0
+        settwo2DBoard(board)
+      }
+    }
+    
+  }
+
+
   return (
     <div tabIndex="0" onKeyPress={(e) => handleKeyPress(e)}>
       <GameContainer>
         <Board
           board={history[step]}
           locked={locked}
-          // setBoardHistory={setBoardHistory}
           onClick={handleClick}
           selected={selected}
           changeNumber={changeNumber}
@@ -141,10 +209,10 @@ const Game = () => {
           name={"Restart from beginning"}
           onClick={restart}
         />
-        {/* <GameControls
+        <GameControls
           name={"Solve"}
-          onClick={eraseAll}
-        /> */}
+          onClick={solveGame}
+        />
         <GameControls
           name={"Erase All"}
           onClick={eraseAll}
@@ -155,12 +223,9 @@ const Game = () => {
         />
       </ControlsContainer>
     </div>
-<<<<<<< HEAD
-=======
 
 
 
->>>>>>> trent
   );
 }
 
